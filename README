@@ -1,0 +1,16 @@
+Publish to Wordpress Plasmoid
+----------------------------
+This is a plasmoid that allows you to write blog posts directly to your wordpress blog without entering the actual wordpress blogs website.
+
+Depends on:
+ * PyKDE / PyQT
+ * Wordpress XML-RPC Library by Michelle Ferretti (http://code.google.com/p/wordpress-library/). (Included in Project. Please let me know if this is considered unethical/illegal).
+
+TODO:
+ * Fix Configuration menu
+ * List categories in blog for better usage.
+ * Allow tagging
+ * Better looking submitting
+
+Licensed under GPL
+By Marcus Follrud 2009
