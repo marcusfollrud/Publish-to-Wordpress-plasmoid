@@ -6,11 +6,15 @@ Depends on:
  * PyKDE / PyQT
  * Wordpress XML-RPC Library by Michelle Ferretti (http://code.google.com/p/wordpress-library/). (Included in Project. Please let me know if this is considered unethical/illegal).
 
+NEWS:
+ 2009-07-23:
+  First release! Uploading to your blog works.
+
 TODO:
- * Fix Configuration menu
  * List categories in blog for better usage.
  * Allow tagging
  * Better looking submitting
+ * Insert images
 
 Licensed under GPL
 By Marcus Follrud 2009
