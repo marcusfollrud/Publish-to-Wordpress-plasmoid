@@ -17,8 +17,9 @@ class PublishToWordpressApplet(plasmascript.Applet):
     self.theme.setImagePath("widgets/background")
     self.setBackgroundHints(Plasma.Applet.DefaultBackground)
     self.layout = QGraphicsLinearLayout(Qt.Vertical, self.applet)
-    self.setConfigurationRequired(True,"Configure your wordpress blog's adress.")
-    
+    self.conf = self.config()
+    if self.conf.readEntry("username","") == "":
+      self.setConfigurationRequired(True,"Configure your wordpress blog's adress.")
     
 
     titleLabel = Plasma.Label(self.applet)
@@ -34,7 +35,7 @@ class PublishToWordpressApplet(plasmascript.Applet):
 
     
     self.textTextEdit = Plasma.TextEdit(self.applet)
-    self.textTextEdit.setText("Click to start writing")
+    self.textTextEdit.setText("Write here")
     self.layout.addItem(self.textTextEdit)
     self.connect(self.textTextEdit, SIGNAL("clicked()"),self.clearTextEdit)
     
@@ -46,14 +47,18 @@ class PublishToWordpressApplet(plasmascript.Applet):
     
     self.setLayout(self.layout)
     self.resize(400,400)
+    
+  def configChanged(self):
+    #FIXME Confirm that all are set and that connection works.
+    self.setConfigurationRequired(False,"")
+    return
 
   def publish(self):
-    publishTitle = self.titleLineEdit.text()
-    publishText = self.textTextEdit.text()
-    
-    wordpress = "http://your-blog-adress/xmlrpc.php" #FIXME This should be setup with configurations
-    user = "admin" #FIXME Same as url..
-    password = "password" #FIXME Same as user
+    publishTitle = unicode(self.titleLineEdit.text())
+    publishText = unicode(self.textTextEdit.text())
+    wordpress = unicode(self.conf.readEntry("wordpressurl",""))
+    user = unicode(self.conf.readEntry("username",""))
+    password = unicode(self.conf.readEntry("password",""))
     
     # prepare client object
     wp = wordpresslib.WordPressClient(wordpress, user, password)
@@ -63,13 +68,12 @@ class PublishToWordpressApplet(plasmascript.Applet):
     post.title = publishTitle
     post.description = publishText
     
-    #FIXME Get confirmationID to decide if the post were posted.
     idNewPost = wp.newPost(post, True)
     
     return;
     
   def clearTextEdit(self):
-    if self.textTextEdit.text() == "Click to start writing":
+    if self.textTextEdit.text() == "Write here":
       textTextEdit.setText("")
 
 def CreateApplet(parent):
